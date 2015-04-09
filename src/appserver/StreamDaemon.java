@@ -13,7 +13,7 @@ import com.amazonaws.services.sqs.AmazonSQS;
 
 import config.Global;
 
-public class StreamDaemon implements Runnable{
+public class StreamDaemon extends Thread{
 	private AmazonSQS sqs;
 	private String queueURL;
 	
@@ -24,9 +24,15 @@ public class StreamDaemon implements Runnable{
 	@Override
 	public void run(){
 		ConfigurationBuilder cb = new ConfigurationBuilder();    	 
-   	 
-		
 		//System.out.println(test);
+		
+		StreamSource stream = new StreamSource();
+		DataUpListener dul = new DataUpListener();
+		stream.addDataListener(dul);
+		
+		
+		
+		
 		
         cb.setDebugEnabled(true)
           .setOAuthConsumerKey(Global.TwitterConsumerKey)
