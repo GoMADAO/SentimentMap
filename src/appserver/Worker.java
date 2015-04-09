@@ -27,11 +27,16 @@ public class Worker implements Runnable{
 	private List<Message> messages;
 	private String queueURL;
 	private AmazonSQS sqs;
+	private DataSource source;
 	
-	public Worker(List<Message> m, String queueURL, AmazonSQS s){
+	
+	
+	
+	public Worker(List<Message> m, String queueURL, AmazonSQS s, DataSource ds){
 		this.messages =m;
 		this.queueURL = queueURL;
 		this.sqs = s;
+		this.source = ds;
 	}
 	@Override
 	public void run(){
@@ -87,15 +92,26 @@ public class Worker implements Runnable{
 			    String line;
 				try {
 					br = new BufferedReader(new InputStreamReader(entity.getContent()));
+					StringBuffer sb = new StringBuffer();
 					while((line=br.readLine())!=null){
-						System.out.println(line);
+						sb.append(line);
 					}
 					br.close();
+					
+					/**
+					 * This part is to solve db needs twit_id , thus id is needed in sqs attribute
+					 */
+					String id = message.getMessageAttributes().get("twit_id").getStringValue();					
+					source.notifyAddSentListener(id, sb.toString());
+										
+					
 				} catch (IllegalStateException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}			    						    			    
 			}						
+			
+			
 			String messageRecieptHandle = message.getReceiptHandle();
 			sqs.deleteMessage(new DeleteMessageRequest(queueURL, messageRecieptHandle));
 		}

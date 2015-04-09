@@ -31,18 +31,27 @@ public class Main {
 		credentials = new ProfileCredentialsProvider("default").getCredentials();
 		sqs = new AmazonSQSClient(credentials);
 		
+		DataSource datasource = new DataSource();
+		DataUpListener listener = new DataUpListener();
+		datasource.addDataListener(listener);
 		
-		StreamDaemon input = new StreamDaemon(sqs, queueURL);
+		StreamDaemon input = new StreamDaemon(sqs, queueURL, datasource);
 		input.setDaemon(true);
 		input.run();
 				
+		
+		
+		
+		
 		ExecutorService e = Executors.newFixedThreadPool(10);
 		
 		while(true){
 			ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueURL);
 			//Message m = sqsClient.receiveMessage(receiveMessageRequest);
 			
-			List<Message> messages  = sqs.receiveMessage(receiveMessageRequest).getMessages();
+			List<Message> messages  = sqs.receiveMessage(receiveMessageRequest
+					.withMessageAttributeNames("twit_id"))
+						.getMessages();
 			if(messages.isEmpty()){
 				try {
 					Thread.sleep(5000);
@@ -51,7 +60,7 @@ public class Main {
 					e1.printStackTrace();
 				}
 			}else{
-				Future<?> task = e.submit(new Worker(messages,  queueURL,  sqs));
+				Future<?> task = e.submit(new Worker(messages,  queueURL,  sqs, datasource));
 				e.execute(new Helper(task, queueURL,  sqs, messages));				
 			}
 			

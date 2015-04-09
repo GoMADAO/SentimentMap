@@ -2,14 +2,19 @@ package appserver;
 
 import java.util.EventObject;
 
+import twitter4j.Status;
+
 public class UpdateEvent extends EventObject{
-	String twitid;
+	Status status;
 	
-	public UpdateEvent(Object source, String sq) {
+	public UpdateEvent(Object source, Status status) {
 		super(source);
 		// TODO Auto-generated constructor stub
+		this.status = status;
 	}
-
+	public Status getStatus(){
+		return this.status;
+	}
 	/**
 	 * 
 	 */

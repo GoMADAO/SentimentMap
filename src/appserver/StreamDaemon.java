@@ -1,6 +1,9 @@
 package appserver;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
@@ -10,30 +13,32 @@ import twitter4j.TwitterStreamFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 import com.amazonaws.services.sqs.AmazonSQS;
+import com.amazonaws.services.sqs.model.MessageAttributeValue;
+import com.amazonaws.services.sqs.model.SendMessageRequest;
 
 import config.Global;
 
 public class StreamDaemon extends Thread{
 	private AmazonSQS sqs;
 	private String queueURL;
+	private DataSource source;
 	
-	public StreamDaemon(AmazonSQS sqs, String queueURL){
+	public StreamDaemon(AmazonSQS sqs, String queueURL, DataSource source){
 		this.sqs=sqs;
 		this.queueURL=queueURL;
+		this.source = source;
 	}
+	
+	
+	
+	
 	@Override
 	public void run(){
 		ConfigurationBuilder cb = new ConfigurationBuilder();    	 
 		//System.out.println(test);
 		
-		StreamSource stream = new StreamSource();
-		DataUpListener dul = new DataUpListener();
-		stream.addDataListener(dul);
 		
-		
-		
-		
-		
+				
         cb.setDebugEnabled(true)
           .setOAuthConsumerKey(Global.TwitterConsumerKey)
           .setOAuthConsumerSecret(Global.TwitterConsumerSecret)
@@ -52,7 +57,23 @@ public class StreamDaemon extends Thread{
                		temp = temp.substring("GeoLocation".length());
            			System.out.println("Text:"+ status.getText());
            			System.out.println();
-           			sqs.sendMessage(queueURL, status.getText());
+           			
+           			// Send message to SQS
+           			//sqs.setQueueAttributes
+           			SendMessageRequest smr = new SendMessageRequest();
+           			smr.setQueueUrl(queueURL);
+           			smr.setMessageBody(status.getText());
+           			Map<String, MessageAttributeValue> messageAttributes = new HashMap<>();
+           			messageAttributes.put("twit_id", 
+           					new MessageAttributeValue()
+           						.withDataType("String")
+           						.withStringValue(status.getId()+""));
+           			smr.withMessageAttributes(messageAttributes);
+           			
+           			sqs.sendMessage(smr);
+           			
+           			// make a notification to DB
+           			source.notifyUpdateListener(status);
            		}
            }
                        

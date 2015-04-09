@@ -32,7 +32,7 @@ public class TestBackEnd {
 		sqs = new AmazonSQSClient(credentials);
 		
 		
-		Runnable input = new StreamDaemon(sqs, queueURL);
+		Runnable input = new StreamDaemon(sqs, queueURL,null);
 		//input.setDaemon(true);
 		
 		
@@ -58,7 +58,7 @@ public class TestBackEnd {
 					e1.printStackTrace();
 				}
 			}else{
-				Future<?> task = e.submit(new Worker(messages,  queueURL,  sqs));
+				Future<?> task = e.submit(new Worker(messages,  queueURL,  sqs, null));
 				e.execute(new Runnable(){
 
 					@Override
