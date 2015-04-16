@@ -103,7 +103,7 @@ public class Worker implements Runnable{
 					 */
 					String id = message.getMessageAttributes().get("twit_id").getStringValue();					
 					source.notifyAddSentListener(id, sb.toString());
-										
+					source.notifySNSListener(id, sb.toString());		
 					
 				} catch (IllegalStateException | IOException e1) {
 					// TODO Auto-generated catch block

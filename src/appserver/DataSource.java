@@ -19,4 +19,9 @@ public class DataSource {
 		listener.handleEvent(ase);
 	}
 	
+	public void notifySNSListener(String id, String json){
+		SNSEvent se = new SNSEvent(this, id, json);
+		listener.handleEvent(se);
+	}
+	
 }

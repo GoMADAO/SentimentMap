@@ -46,11 +46,36 @@ public class DataUpListener implements DataListener{
 		if (conn!=null){
 			String id = ase.getTwitId();
 			String sentiment =JsonParser.Parse(ase.getSentiment()) ;
+			if (sentiment.equals(null))
+				return;
 			String sql = "INSERT INTO twit_sent(twid, sent) VALUES ("
 					+ "'"+id+"', '"+sentiment+"');";
-			System.out.println("sql:"+sql);
+			//System.out.println("sql:"+sql);
 			DBConn.doInsert(sql, conn);
 		}
+	}
+
+	@Override
+	public void handleEvent(SNSEvent se) {
+		// TODO Auto-generated method stub
+		String id = se.getId();
+		String sentiment = JsonParser.Parse(se.getSentiment());
+		if (sentiment.equals(null))
+			return;
+		
+		/**
+		 * do what you want to do here
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 */
+		
+		
 	}
 
 }
