@@ -28,7 +28,7 @@ public class Alchemy {
 		// Request parameters and other properties.
 		List<NameValuePair> params = new ArrayList<NameValuePair>(2);
 		params.add(new BasicNameValuePair("apikey", Global.AlchemyKEY));
-		params.add(new BasicNameValuePair("text", "Hello!"));
+		params.add(new BasicNameValuePair("text", "He is not a good person."));
 		params.add(new BasicNameValuePair("outputMode","json"));
 		
 		post.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
@@ -57,7 +57,7 @@ public class Alchemy {
 		
 		params = new ArrayList<NameValuePair>(2);
 		params.add(new BasicNameValuePair("apikey", Global.AlchemyKEY));
-		params.add(new BasicNameValuePair("text", "Next one!"));
+		params.add(new BasicNameValuePair("text", "Micheal is very nice!"));
 		params.add(new BasicNameValuePair("outputMode","json"));
 		
 		post.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
@@ -85,7 +85,7 @@ public class Alchemy {
 		}
 		
 		String content = sb.toString();
-		System.out.println("Return value"+JsonParser.Parse(content));
+		System.out.println("Return value: "+JsonParser.Parse(content));
 		
 	}
 }
