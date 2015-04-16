@@ -12,7 +12,7 @@ public class JsonParser {
 			String status = pkg.getString("status");
 			System.out.println("this is the status"+status);
 			if(!status.equals("OK"))
-				return null;
+				return "0";
 			
 			
 			
