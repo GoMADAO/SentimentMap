@@ -75,7 +75,7 @@ public class DataUpListener implements DataListener{
 		String lng ;
 		String strSNS = null;
 		try {
-			rs.next();
+			//rs.next();
 			lat = rs.getString("lati");
 			lng = rs.getString("longi");
 			strSNS = JsonParser.Build(lat, lng, sentiment);
@@ -87,7 +87,7 @@ public class DataUpListener implements DataListener{
 		//{"lat":"102","lng":"09","sentiment":"0.4"}
 		//list<string>
 		
-		
+		System.out.println(strSNS);
 		/**
 		 * do what you want to do here
 		 * 
