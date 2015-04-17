@@ -82,11 +82,15 @@ public class DataUpListener implements DataListener{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
-		DBConn.closeResultSet(rs, stmt);
+		}finally{
+			DBConn.closeResultSet(rs, stmt);
+		}
+		
 		//{"lat":"102","lng":"09","sentiment":"0.4"}
 		//list<string>
+		String bbbb;
 		
+		System.out.println();
 		System.out.println(strSNS);
 		/**
 		 * do what you want to do here
