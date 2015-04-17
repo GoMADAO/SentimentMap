@@ -30,4 +30,20 @@ public class JsonParser {
 		return sent;
 	}
 
+	public static String Build(String lat, String lng, String sen){
+		
+		JSONObject ob = new JSONObject();
+		
+		try {
+			ob.put("lat", lat);
+			ob.put("lng", lng);
+			ob.put("sentiment", sen);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		return ob.toString();
+		
+	}
+	
 }

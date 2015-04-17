@@ -1,6 +1,9 @@
 package appserver;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,9 +62,31 @@ public class DataUpListener implements DataListener{
 	public void handleEvent(SNSEvent se) {
 		// TODO Auto-generated method stub
 		String id = se.getId();
+		
 		String sentiment = JsonParser.Parse(se.getSentiment());
 		if (sentiment.equals(null))
 			return;
+		
+		String sql = "SELECT lati, longi FROM info WHERE twid = '"+id+"';";
+		ResultSet rs; 
+		Statement stmt = null;
+		rs = DBConn.doSelect(sql, conn, stmt);
+		String lat ;
+		String lng ;
+		String strSNS = null;
+		try {
+			rs.next();
+			lat = rs.getString("lati");
+			lng = rs.getString("longi");
+			strSNS = JsonParser.Build(lat, lng, sentiment);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		DBConn.closeResultSet(rs, stmt);
+		//{"lat":"102","lng":"09","sentiment":"0.4"}
+		//list<string>
+		
 		
 		/**
 		 * do what you want to do here
