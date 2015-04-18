@@ -77,13 +77,14 @@ public class DataUpListener implements DataListener{
 		String lng ;
 		String strSNS = null;
 		try {
-			//rs.next();
+			rs.next();
 			lat = rs.getString("lati");
 			lng = rs.getString("longi");
 			strSNS = JsonParser.Build(lat, lng, sentiment);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		}finally{
 			DBConn.closeResultSet(rs, stmt);
 		}
