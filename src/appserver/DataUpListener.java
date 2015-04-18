@@ -7,6 +7,8 @@ import java.sql.Statement;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.amazonaws.services.sns.AmazonSNSClient;
+
 import twitter4j.Status;
 
 public class DataUpListener implements DataListener{
@@ -88,22 +90,13 @@ public class DataUpListener implements DataListener{
 		
 		//{"lat":"102","lng":"09","sentiment":"0.4"}
 		//list<string>
-		String bbbb;
 		
 		System.out.println();
 		System.out.println(strSNS);
-		/**
-		 * do what you want to do here
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 */
 		
+		//send the new SNS message to subscribed endpoint
+		AmazonSNSClient snsClient = SNSchannel.newSNSClient();
+		SNSchannel.sendMsg(snsClient, SNSchannel.topicArn, strSNS);
 		
 	}
 
