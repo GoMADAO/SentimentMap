@@ -101,4 +101,13 @@ public class DataUpListener implements DataListener{
 		
 	}
 
+	@Override
+	public void handleEvent(StreamEvent sme) {
+		// TODO Auto-generated method stub
+		
+		StreamDaemon input = new StreamDaemon(sme.getSQS(), sme.getURL(), sme.getDataSource());
+		input.setDaemon(true);
+		input.run();
+	}
+
 }

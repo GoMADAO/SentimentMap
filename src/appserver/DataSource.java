@@ -1,5 +1,7 @@
 package appserver;
 
+import com.amazonaws.services.sqs.AmazonSQS;
+
 import twitter4j.Status;
 
 
@@ -22,6 +24,12 @@ public class DataSource {
 	public void notifySNSListener(String id, String json){
 		SNSEvent se = new SNSEvent(this, id, json);
 		listener.handleEvent(se);
+	}
+	
+	
+	public void notifyStreamListener(AmazonSQS sqs, String queueURL, DataSource source){
+		StreamEvent sme = new StreamEvent(this, sqs, queueURL, source);
+		listener.handleEvent(sme);
 	}
 	
 }

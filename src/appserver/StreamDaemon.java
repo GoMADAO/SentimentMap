@@ -100,6 +100,12 @@ public class StreamDaemon extends Thread{
            @Override
            public void onException(Exception ex) {
                ex.printStackTrace();
+               try {
+				Thread.currentThread().join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
            }
        };
        twitterStream.addListener(listener);
