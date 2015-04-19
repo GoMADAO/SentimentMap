@@ -51,6 +51,7 @@ public class DataUpListener implements DataListener{
 		if (conn!=null){
 			String id = ase.getTwitId();
 			String sentiment =JsonParser.Parse(ase.getSentiment()) ;
+			
 			if (sentiment.equals(null))
 				return;
 			String sql = "INSERT INTO twit_sent(twid, sent) VALUES ("

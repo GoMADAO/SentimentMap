@@ -97,7 +97,7 @@ public class Worker implements Runnable{
 						sb.append(line);
 					}
 					br.close();
-					
+					System.out.println(sb.toString());
 					/**
 					 * This part is to solve db needs twit_id , thus id is needed in sqs attribute
 					 */
