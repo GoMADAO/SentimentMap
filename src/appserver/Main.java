@@ -1,5 +1,6 @@
 package appserver;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Timer;
@@ -8,7 +9,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.auth.PropertiesCredentials;
+//import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClient;
 import com.amazonaws.services.sqs.model.Message;
@@ -29,8 +31,15 @@ public class Main {
 		// TODO Auto-generated method stub
 		
 		System.out.println("running first");
+		
 		AWSCredentials credentials = null;
-		credentials = new ProfileCredentialsProvider("default").getCredentials();
+        try {
+            credentials = new PropertiesCredentials(
+              Main.class.getResourceAsStream("AwsCredentials.properties"));
+        } catch (IOException e2) {
+        // TODO Auto-generated catch block
+            e2.printStackTrace();
+        }
 		sqs = new AmazonSQSClient(credentials);
 		
 		DataSource datasource = new DataSource();

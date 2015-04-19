@@ -14,9 +14,11 @@ create a Global file in your local config package.
 
 In the Global file, you need to have the following fields:
 
+
 -Alchemy API:
 
 AlchemyKEY
+
 
 -Twitter API:
 
@@ -27,6 +29,7 @@ TwitterConsumerSecret
 TwitterAccessToken
 
 TwitterAccessTokenSecret
+
 
 -rds MysqlDB:
 
