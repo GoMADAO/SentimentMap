@@ -113,7 +113,8 @@ public class Worker implements Runnable{
 			
 			
 			String messageRecieptHandle = message.getReceiptHandle();
-			sqs.deleteMessage(new DeleteMessageRequest(queueURL, messageRecieptHandle));
+			sqs.deleteMessage(new DeleteMessageRequest().withQueueUrl(queueURL)
+			    .withReceiptHandle(messageRecieptHandle));
 		}
 	}
 }

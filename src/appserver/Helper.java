@@ -36,7 +36,7 @@ public class Helper implements Runnable{
 			ChangeMessageVisibilityBatchRequestEntry entry
 			= new ChangeMessageVisibilityBatchRequestEntry 
 			(id+"", message.getReceiptHandle());
-			entry.setVisibilityTimeout(30);
+			entry.setVisibilityTimeout(40);
 			list.add(entry);
 			
 		}						

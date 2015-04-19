@@ -1,6 +1,8 @@
 package appserver;
 
+import java.sql.Connection;
 import java.util.List;
+import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -38,13 +40,18 @@ public class Main {
 		StreamDaemon input = new StreamDaemon(sqs, queueURL, datasource);
 		input.setDaemon(true);
 		input.run();
-				
 		
 		
+		Connection con = DBConn.getConnection();
+		
+		Timer t = new Timer();
+        t.schedule(new DataCleaner(con), 60*1000);
+		
+        
+		ExecutorService e = Executors.newFixedThreadPool(15);
 		
 		
-		ExecutorService e = Executors.newFixedThreadPool(10);
-		
+        
 		while(true){
 			ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueURL);
 			//Message m = sqsClient.receiveMessage(receiveMessageRequest);

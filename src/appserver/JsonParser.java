@@ -10,12 +10,10 @@ public class JsonParser {
 		try {
 			JSONObject pkg = new JSONObject(content);
 			String status = pkg.getString("status");
-			System.out.println("this is the status"+status);
+			//System.out.println("this is the status"+status);
 			if(!status.equals("OK"))
 				return "0";
-			
-			
-			
+						
 			JSONObject docSen =pkg.getJSONObject("docSentiment"); 
 			
 			System.out.println();

@@ -92,7 +92,6 @@ public class DataUpListener implements DataListener{
 		//{"lat":"102","lng":"09","sentiment":"0.4"}
 		//list<string>
 		
-		System.out.println();
 		System.out.println(strSNS);
 		
 		//send the new SNS message to subscribed endpoint
@@ -104,7 +103,7 @@ public class DataUpListener implements DataListener{
 	@Override
 	public void handleEvent(StreamEvent sme) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("------------------------streaming restart-----------------------");
 		StreamDaemon input = new StreamDaemon(sme.getSQS(), sme.getURL(), sme.getDataSource());
 		input.setDaemon(true);
 		input.run();
