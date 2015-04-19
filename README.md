@@ -4,6 +4,7 @@ get streaming data, then push to Amazon SQS and stores those data in Amazon MySQ
 the same time, use a thread pool to process data by calling Alchemy API to acquire sentiment.
 After that, push it to Amazon SNS so that Web Server could use it for visualization.
 
+The Web Server part see: https://github.com/AlexandraVon/SentimentMap_WebServer.git
 
 ----
 
